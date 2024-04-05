@@ -1,0 +1,25 @@
+eureka:
+  client:
+    register-with-eureka: false
+
+server:
+  port: 8222
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: users
+          uri: http://localhost:8090
+          predicates:
+            - Path=/api/v1/emprunteurs/**
+        - id: emprunts
+          uri: http://localhost:8050
+          predicates:
+            - Path=/api/v1/emprunts/**
+
+  application:
+    name: gateway
