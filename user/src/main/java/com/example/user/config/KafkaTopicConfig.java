@@ -17,5 +17,13 @@ public class KafkaTopicConfig {
                 .name("demande_emprunt")
                 .build();
     }
+
+    @Bean
+    public NewTopic notificationTopic() {
+        return TopicBuilder
+                .name("notificationTopic")
+                .build();
+    }
+
 }
 

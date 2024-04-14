@@ -19,8 +19,18 @@ spring:
     url: jdbc:postgresql://localhost:5432/user_db
     user: postgres
     password: hadil123
+    locations: classpath:databaseMigration
+    ignoreMigrationPatterns: "*:ignored"
   kafka:
     producer:
       bootstrap-servers: localhost:9092
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      bootstrap-servers: localhost:9092
+      group-id: userConsumer
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      properties:
+        spring.json.trusted.packages: '*'

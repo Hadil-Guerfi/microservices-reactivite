@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 @Service
-@RequiredArgsConstructor
 public class EmpruntService {
 
-  private  EmpruntRepository empruntRepository;
+  private final EmpruntRepository empruntRepository;
 
     public EmpruntService(EmpruntRepository empruntRepository) {
         this.empruntRepository = empruntRepository;
@@ -28,7 +30,7 @@ public class EmpruntService {
     return empruntRepository.save(
             Emprunt.builder()
                     .id_livre(request.getId_livre())
-                    .id_empruteur(request.getId_empruteur())
+                    .id_emprunteur(request.getId_empruteur())
                     .date_debut(request.getDate_debut())
                     .date_fin(request.getDate_fin())
                     .build()
@@ -39,4 +41,10 @@ public class EmpruntService {
   public void deleteById(Long id) {
     empruntRepository.deleteById(id).subscribe();
   }
+
+  public Flux<Emprunt> findEmpruntWithDateRetourExpire() {
+    Date currentDate = new Date();
+    return empruntRepository.findEmpruntWithDateRetourExpire(LocalDate.now());
+  }
+
 }

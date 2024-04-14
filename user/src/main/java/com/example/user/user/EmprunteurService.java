@@ -12,11 +12,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class EmprunteurService {
 
-  private  EmprunteurRepository emprunteurRepository;
-
-    public EmprunteurService(EmprunteurRepository emprunteurRepository) {
-        this.emprunteurRepository = emprunteurRepository;
-    }
+  private final EmprunteurRepository emprunteurRepository;
 
     public Flux<Emprunteur> findAll() {
     return emprunteurRepository.findAll();

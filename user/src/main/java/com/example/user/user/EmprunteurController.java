@@ -1,6 +1,8 @@
 package com.example.user.user;
 
 import com.example.emprunt.emprunt.EmpruntRequest;
+import com.example.user.kafka.ResultatVerifyIdLivreConsumer;
+import com.example.user.kafka.VerifyIdLivreProducer;
 import com.example.user.kafka.demandeEmpruntProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,9 @@ public class EmprunteurController {
   private final EmprunteurService service;
   private final demandeEmpruntProducer demandeEmpruntProd;
 
+  private  final VerifyIdLivreProducer verifyIdLivreProducer;
+
+  private final ResultatVerifyIdLivreConsumer resultatVerifyIdLivreConsumer;
 
   @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
   public Flux<Emprunteur> findAll() {
@@ -57,24 +62,31 @@ public class EmprunteurController {
 
 
 
+  @PostMapping("/demandeEmprunt")
+  public String placeOrder(@RequestBody EmpruntRequest demandeEmp){
 
-    @PostMapping("/demandeEmprunt")
-    public String placeOrder(@RequestBody EmpruntRequest demandeEmp){
+
+//    System.out.println(demandeEmp.toString());
+
+    EmpruntRequest demandeEmpruntEvent=new EmpruntRequest();
+
+    demandeEmpruntEvent.setId_livre(demandeEmp.getId_livre());
+    demandeEmpruntEvent.setId_empruteur(demandeEmp.getId_empruteur());
+    demandeEmpruntEvent.setDate_debut(demandeEmp.getDate_debut());
+    demandeEmpruntEvent.setDate_fin(demandeEmp.getDate_fin());
+
+    verifyIdLivreProducer.sendMessage(demandeEmpruntEvent);
+
+    resultatVerifyIdLivreConsumer.setDemandeEmprunt(demandeEmpruntEvent);
+
+//      String msg = resultatVerifyIdLivreConsumer.consumeJMsg();
 
 
-      System.out.println(demandeEmp.toString());
 
-        EmpruntRequest demandeEmpruntEvent=new EmpruntRequest();
+//        demandeEmpruntProd.sendMessage(demandeEmpruntEvent);
 
-        demandeEmpruntEvent.setId_livre(demandeEmp.getId_livre());
-        demandeEmpruntEvent.setId_empruteur(demandeEmp.getId_empruteur());
-        demandeEmpruntEvent.setDate_debut(demandeEmp.getDate_debut());
-        demandeEmpruntEvent.setDate_fin(demandeEmp.getDate_fin());
+    return "Demande emprunt placed succefully ...";
 
-        demandeEmpruntProd.sendMessage(demandeEmpruntEvent);
-
-        return "Order placed succefully ...";
-
-    }
+  }
 
 }

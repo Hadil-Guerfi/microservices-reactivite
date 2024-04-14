@@ -6,6 +6,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -16,9 +17,9 @@ public class Emprunt {
 
   @Id
   private Long id;
-  private Long id_empruteur;
+  private Long id_emprunteur;
   private Long id_livre;
-  private Date date_debut;
-  private Date date_fin;
+  private LocalDate date_debut;
+  private LocalDate date_fin;
 
 }

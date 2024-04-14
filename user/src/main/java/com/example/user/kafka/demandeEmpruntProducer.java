@@ -22,7 +22,7 @@ public class demandeEmpruntProducer {
     private final KafkaTemplate<String, EmpruntRequest> kafkaTemplate;
 
     public void sendMessage(EmpruntRequest event) {
-        log.info(format("Sending Demande Emprunt Event :: %s", event));
+        log.info(format("Sending demande d'emprunt to demande_emprunt topic :: %s", event));
 
 
             Message<EmpruntRequest> message = MessageBuilder

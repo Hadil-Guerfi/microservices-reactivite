@@ -20,6 +20,10 @@ spring:
           uri: http://localhost:8050
           predicates:
             - Path=/api/v1/emprunts/**
+        - id: livres
+          uri: http://localhost:8010
+          predicates:
+            - Path=/api/v1/livres/**
 
   application:
     name: gateway
