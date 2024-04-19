@@ -14,11 +14,13 @@ spring:
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/emprunt_db
     username: postgres
-    password: hadil123
+    password: hhhh
   flyway:
     url: jdbc:postgresql://localhost:5432/emprunt_db
     user: postgres
-    password: hadil123
+    password: hhhh
+    locations: classpath:migrationEmprunt
+    ignoreMigrationPatterns: "*:ignored"
   kafka:
     producer:
       bootstrap-servers: localhost:9092

@@ -6,10 +6,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
 public class LivreService {
 
-  private  LivreRepository livreRepository;
+  private final LivreRepository livreRepository;
 
     public LivreService(LivreRepository livreRepository) {
         this.livreRepository = livreRepository;
@@ -20,9 +19,19 @@ public class LivreService {
 
   }
 
+
   public Mono<Livre> findById(Long id) {
     return livreRepository.findById(id);
   }
+
+
+  public Mono<Integer> getNumberOfExemplaires(Long id) {
+    // Implement logic to fetch the number of exemplaires for the given book ID
+    return livreRepository.findById(id)
+            .map(Livre::getNbr_exemplaire)
+            .switchIfEmpty(Mono.just(0)); // Return 0 if no Livre found with the given ID
+  }
+
 //
 //  public Mono<Livre> save(LivreRequest request) {
 //    return livreRepository.save(
@@ -33,6 +42,16 @@ public class LivreService {
 //            .build()
 //    );
 //  }
+
+    public Mono<Void> decreaseNbrExemplaire(Long id) {
+        return livreRepository.findById(id)
+                .flatMap(livre -> {
+                    int updatedNbrExemplaire = livre.getNbr_exemplaire() - 1;
+                    livre.setNbr_exemplaire(updatedNbrExemplaire);
+                    return livreRepository.save(livre)
+                            .then(Mono.fromRunnable(() -> System.out.println(" \n ------------------------------------------------------------------------------------------------- 'nbr_exemplaire' decreased successfully !  -----------------------------------------------------")));
+                });
+    }
 
 
   public void deleteById(Long id) {

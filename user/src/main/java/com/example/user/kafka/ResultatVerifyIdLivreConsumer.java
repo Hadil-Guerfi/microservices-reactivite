@@ -27,7 +27,7 @@ public class ResultatVerifyIdLivreConsumer {
 //            System.out.println("Sending demande d'emprunt to demande_emprunt  "+demandeEmprunt);
             demandeEmpruntProd.sendMessage(demandeEmprunt);
         }else{
-            System.out.println(" \n ------------------------------------------------------------------------------------------------- Livre Id doen't exists -----------------------------------------------------");
+            System.out.println(" \n ------------------------------------------------------------------------------------------------- Livre Id doen't exist -----------------------------------------------------------------------------------------------------------------------");
         }
 
         return msg;

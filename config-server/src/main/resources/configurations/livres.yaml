@@ -14,9 +14,10 @@ spring:
   r2dbc:
     url: r2dbc:postgresql://localhost:5432/livre_db
     username: postgres
-    password: hadil123
+    password: hhhh
   flyway:
     url: jdbc:postgresql://localhost:5432/livre_db
     user: postgres
-    password: hadil123
+    password: hhhh
+
 
